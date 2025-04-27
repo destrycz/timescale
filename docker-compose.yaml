@@ -1,0 +1,27 @@
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg12
+    container_name: timescaledb
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - containerNetwork
+        
+    environment:
+      TIMESCALEDB_TELEMETRY: off
+      POSTGRES_USER: timescaledb
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data:/var/lib/postgresql/data
+volumes:
+  postgresdata:
+    external: false
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/data/db-data'
+networks:
+  containerNetwork:
+    external: true
